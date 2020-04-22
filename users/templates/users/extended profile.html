@@ -1,0 +1,140 @@
+</div>
+		<br>
+		<br>
+		<div >
+			<h2 >Fill Elective Preferences</h2>
+			<div >
+				<form method="post" >
+					{% csrf_token %}
+					<fieldset class="form-group">
+						<legend class="border-bottom mb-4"></legend>
+						<script>
+							var map=[]
+							for(var i=1; i<10; i++)
+							{
+								map.push("Preference " +i);
+							}
+							var coursesOffered=[];
+						</script>
+
+							{% for post in courses_offered %}
+								{% if 'EL' in post.Tag %}
+									{% if post.Tag|slice:":4" in user.username %}
+									<script>
+										coursesOffered.push(
+								["{{post.Subject}}","{{post.CourseName}}", "{{post.CourseName}}"]
+							
+						);
+									</script>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+
+						<script>
+							for(let i=1; i<10; i++)
+							{
+
+								document.write
+								(`
+
+									<select name=${map[i-1]}  class="browser-default custom-select custom-select-lg mb-3">
+									<option disabled selected>${map[i-1]}</option>
+								`);
+								for(let j=0; j<coursesOffered.length; j++)
+								{
+									var s=coursesOffered[j][0]+" "+coursesOffered[j][1];
+									document.write(`
+										<option value= ${s}>${coursesOffered[j][2]}</option>
+										`);
+								}
+								document.write(`</select>`);
+							}
+							
+						</script>
+							<br><br>
+							</fieldset>
+							<p></p>
+							<div class="form-group">
+								<button class="btn btn-outline-infor" type="submit">Submit</button>
+							</div>
+						</form>
+					</div>
+						
+	
+			</div>
+	{% endblock content %}
+	# if request.method == 'POST':
+	# 	# form = electives(request.POST) #now i have all the details of the form: form.elective1 etc.
+	# 	# if form.is_valid():
+	# 	student_info = Student_Info()
+
+	# 	for x in Student_Info.objects.all():
+	# 		if x.user==request.user:
+	# 			student_info=x
+
+	# 		# f=form.cleaned_data.get(f) // what the f*** is this?
+	# 	ID=request.user.username
+	# 	student_info.user = request.user
+	# 	student_info.Identity=ID
+	# 	for data in CdcData.objects.filter(CampusID=ID):
+	# 		student_info.user.first_name=data.Name
+	# 		break
+	# 	student_info.name=student_info.user.first_name
+	# 	student_info.p1 = request.POST['Preference 1']
+	# 	student_info.p2 = request.POST['Preference 2']
+	# 	student_info.p3 = request.POST['Preference 3']
+	# 	student_info.p4 = request.POST['Preference 4']
+
+	# 	pref_dict=request.POST
+	# 	student_info.p
+	# 	for pref_no,option in pref_dict:
+	# 		student_info.p.append(optio+"|")
+
+
+	# 	test_list=[student_info.p1, student_info.p2, student_info.p3, student_info.p4]
+
+	# 	for data in ElecData.objects.filter(CampusID=ID):
+	# 		print(data.Subject)
+	# 		for preference in test_list:
+	# 			print(preference.split(':'))
+	# 			if data.Subject ==  preference.split(':')[0] :
+	# 				messages.warning(request, f'You have already registered for one of these courses in previous semester')
+	# 				return redirect('profile')
+
+
+	# 	for i in range(3):
+	# 		if test_list[i]=="---" and test_list[i+1]!="---":
+	# 			messages.warning(request, f'Logical Error in Filling Preference')
+	# 			return redirect('profile')
+
+	# 	true_list=[]
+	# 	for val in test_list:
+	# 		if val!="---":
+	# 			true_list.append(val)
+
+	# 	print(true_list)
+
+	# 	if len(set(true_list)) != len(true_list):
+	# 		messages.warning(request, f'Please Fill Unique Preferences')
+	# 		return redirect('profile')
+	# 	# if student_info.p1 == student_info.p2 or student_info.p1 == student_info.p3 or student_info.p1 == student_info.p4 or student_info.p2 == student_info.p3 or student_info.p2 == student_info.p4 or student_info.p3 == student_info.p4: 
+			
+		
+
+	# 	student_info.save()
+	# 	student_info=Student_Info()
+		# return redirect('pref')
+
+
+# @login_required
+# def pref(request):
+# 	ID = request.user.username
+# 	context={
+# 	'cdc': CdcData.objects.filter(CampusID=ID),
+# 	'elec': ElecData.objects.filter(CampusID=ID),
+# 	'courses': CourseList.objects.all(),
+# 	'student_info':Student_Info.objects.filter(Identity=ID)
+	
+# 	}
+# 	return render(request, 'users/pref.html',context)
+			

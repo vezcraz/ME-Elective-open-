@@ -1,0 +1,29 @@
+{% extends "form/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	</div>
+				<br><br>
+				<div>
+				<h2 >Preferences Filled: </h2><br>
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Preference</th>
+							<th scope="col" >Course</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						{% for post in studentInfo%}
+							<tr >
+								<th scope="row">{{post.a}}</th>
+								<td>{{post.b}}</td>
+							</tr>
+							
+						{% endfor %}
+						
+						
+					</tbody>
+				</table>
+			</div>	
+{% endblock content %}

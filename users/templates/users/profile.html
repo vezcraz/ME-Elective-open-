@@ -1,0 +1,106 @@
+{% extends "form/base.html" %}
+{# {% load crispy_forms_Tags %} #}
+{% block content %}
+	<h4>Welcome&nbsp;
+	{% for post in stuList|slice:":1" %}
+		{{post.Name|slice:":-1"}}
+		
+	{% endfor %}
+	&nbsp;{{ user.username}}	</h4>
+	
+	<br>	<br>
+	<div>
+		<div >
+			{% for x in final %}
+				{% if '1' in x %}
+					<h2 >You have completed your CDCs</h2>					
+				{% else %}
+					<h2 >You have been registered for the following courses as your CDCs</h2><br>
+			<b>
+			<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Course No.</th>
+					<th scope="col" >Course</th>
+					
+				</tr>
+			</thead>
+			<tbody>	
+				{% for course in cdc %}
+					<tr >
+						<td>{{course.CourseNo}}</td>
+						<td>{{course.CourseName}}</td>
+						
+					</tr>
+				{% endfor %}
+			</tbody>
+			</table>
+			</b>			
+				{% endif %}	
+			{% endfor %}
+			
+		
+		</div>
+</div>
+		<br>
+		<br>
+		<div >
+			<h2 >Fill Elective Preferences</h2>
+			<div >
+				<form method="post" >
+					{% csrf_token %}
+					<fieldset class="form-group">
+						<legend class="border-bottom mb-4"></legend>
+						<script>
+							var map=[]
+							for(var i=1; i<10; i++)
+							{
+								map.push("Preference " + i.toString());
+							}
+							var coursesOffered=[];
+						</script>
+
+							{% for post in courses_offered %}
+									
+									<script>
+										coursesOffered.push(
+								["{{post.CourseCode}}","{{post.CourseName}}", "{{post.CourseName}}"]
+							
+						);
+									</script>
+							{% endfor %}
+
+						<script>
+
+							for(let i=1; i<=coursesOffered.length; i++)
+							{
+								var pno=map[i-1]
+								document.write
+								(`
+									
+									<select name="${pno}"  class="browser-default custom-select custom-select-lg mb-3">
+									<option disabled selected>${map[i-1]}</option>
+								`);
+								for(let j=0; j<coursesOffered.length; j++)
+								{
+									var s=coursesOffered[j][0]+": "+coursesOffered[j][1];
+									document.write(`
+										<option value="${s}">${coursesOffered[j][2]}</option>
+										`);
+								}
+								document.write(`</select>`);
+							}
+							
+						</script>
+							<br><br>
+							</fieldset>
+							<p></p>
+							<div class="form-group">
+								<button class="btn btn-outline-infor" type="submit">Submit</button>
+							</div>
+						</form>
+					</div>
+						
+	
+			</div>
+	{% endblock content %}
